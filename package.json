@@ -1,0 +1,30 @@
+{
+  "name": "tableheader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && browserify index.js -o dist/bundle.js",
+    "buildfont" : "browserify --node gen/app.js -o gen/bundle.js",
+    "serve": "http-server dist/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@arteris/table-header": "^1.1.0",
+    "onml": "^0.4.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "tspan": "^0.2.1"
+  },
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "escodegen": "^1.9.0",
+    "eslint": "^4.8.0",
+    "eslint-config-google": "^0.9.1",
+    "esprima": "^4.0.0",
+    "estraverse": "^4.2.0",
+    "http-server": "^0.10.0"
+  },
+  "description": ""
+}

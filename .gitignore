@@ -1,0 +1,7 @@
+dist
+.git
+package-lock.json
+node_modules
+indie-flower.js
+th.js
+height.js
