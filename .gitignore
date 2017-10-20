@@ -3,5 +3,4 @@ dist
 package-lock.json
 node_modules
 indie-flower.js
-th.js
-height.js
+roboto.js

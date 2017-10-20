@@ -1,92 +1,59 @@
 const React = require('react')
-    , $ = React.createElement
     , ReactDOM = require('react-dom')
-    , tspan = require('tspan')
-    , reparse = tspan.reparse(React)
-    , font = require('./indie-flower')()
-    , width = require('./width')
+    , resch = require('resch')
+    , schema = require('./schema')
+    , data = require('./data')
+    , update = require('immutability-helper')
+
+    , reGenObjectColumn = require('./object-column')
+    , reGenArray = require('./array')
+    , reGenColumn = require('./number')
+    , reGenObject = require('./object')
+    , reGenString = require('./string')
     ;
 
-const fontSize = 24;
-const fontFamily = 'Indie Flower';
-const props = font(fontSize);
-const margin = 1;
+const $ = React.createElement;
+const desc = Object.assign({}, resch);
+desc.array = reGenArray;
+desc.object = reGenObject;
+desc.number = reGenColumn;
+desc.string = reGenString;
+desc.object_column = reGenObjectColumn;
+
+const genForm = resch.__form(React)(desc);
 
 class App extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            data: props.data
+        };
+
+        this.updateState = this.updateState.bind(this);
+
+        this.Form = genForm({
+            schema: schema,
+            path: [],
+            updateState: this.updateState
+        });
     }
 
-    genPath (node) {
-        const path = [
-            'm', 0, node.height,
-            'v', -node.height,
-            'h', node.width + 2
-        ];
-        return path.join(' ');
-    }
-
-    genEndPath(node) {
-        const path = [
-            'm', 0, node.height,
-            'h', node.width + 2,
-            'v', -node.height
-        ];
-        return path.join(' ');
-    }
-
-    genHeader(node, index) {
-        return (
-            $('g', { key : index, transform: 'translate('+ [node.dx, node.dy].join(',') + ')' },
-                $('path', {d: this.genPath(node), style: {strokeWidth: 1, stroke: 'black', fill: 'none'}}),
-                $('text', {
-                    x: 1,
-                    y: node.height * .65 + 1,
-                    style: {
-                        fill: 'blue',
-                        fontFamily: fontFamily,
-                        fontSize: fontSize
-                    }
-                }, reparse(node.label)),
-                node.kind === 'g' && node.body.map( (e, i) => this.genHeader(e, i))
-            )
-        );
+    updateState (spec) {
+        this.setState(function (state) {
+            return update(state, spec);
+        });
     }
 
     render() {
-        const descriptor = {
-            kind: 'g',
-            body: [
-                { kind: 'col', label: 'Alpha', width: 5 },
-                { kind: 'col', label: 'Beta',  width: 7 },
-                {
-                    kind: 'g',
-                    label: 'Nyfi',
-                    body: [
-                        { kind: 'col', label: 'Uno', width: 12 },
-                        { kind: 'col', label: 'Duo', width: 15 }
-                    ]
-                }
-            ]
-        };
-
-        const dst = width(descriptor);
-        const header = this.genHeader(dst, 0);
-
         return (
-            $('div', {},
-                $('svg', {} ,
-                    $('g', { transform: 'translate(0.5, 0.5)'},
-                        header,
-                        $('path', { d: this.genEndPath(dst), style: {strokeWidth: 1, stroke: 'black', fill: 'none'}})
-                    )
-                )
-            )
+            $(this.Form , {
+                data: this.state.data
+            })
         );
     }
 }
 
 ReactDOM.render(
-    $(App, { }),
+    $(App, { data: data }),
     document.getElementById('root')
 );

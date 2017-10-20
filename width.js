@@ -1,48 +1,54 @@
 'use strict';
 
-const font = require('./indie-flower')();
+const font = require('./roboto')();
 
 module.exports = (fontSize) => {
     const props = font(fontSize);
     var levels = {};
 
-    const lvl = (node, cur) => {
-        if (node.kind === 'g') {
-            var tmp = node.body.reduce( (acc, e) => {
-                return Math.max(acc, lvl(e, cur + 1));
+    const lvls = (schema, cur) => {
+        if (schema.type === 'object') {
+            let tmp = Object.keys(schema.properties).reduce( (acc, e) => {
+                return Math.max(acc, lvls(schema.properties[e], cur + 1));
             }, 0);
-            tmp += node.label ? props.getWidth(node.label) : 0;
+            tmp += schema.title ? props.getWidth(schema.title) : 0;
             levels[cur] = Math.ceil(Math.max(levels[cur] || 0, tmp));
         } else {
-            levels[cur] = Math.ceil(Math.max(levels[cur] || 0, props.getWidth(node.label)));
+            levels[cur] = Math.ceil(Math.max(levels[cur] || 0, props.getWidth(schema.title)));
         }
         return levels[cur];
     };
 
-    const back = (node, x, y, cur) => {
-        node.dx = x;
-        node.dy = y;
-        if (node.kind === 'g') {
-            node.width = levels[cur] - levels[cur + 1] || 0;
-            var height = node.body.reduce( (acc, e) => {
-                return back(e, levels[cur] - levels[cur + 1] || 0, acc, cur + 1) + acc;
+    const fill = (schema, x, y, cur, desc) => {
+        desc.props = {};
+        desc.props.dx = x;
+        desc.props.dy = y;
+        if (schema.type === 'object') {
+            desc.props.width = levels[cur] - levels[cur + 1] || 0;
+            var height = Object.keys(schema.properties).reduce( (acc, e) => {
+                desc[e] = {};
+                return fill(schema.properties[e], levels[cur] - levels[cur + 1] || 0, acc, cur + 1, desc[e]) + acc;
             }, 0);
-            node.height = Math.ceil(height);
+            desc.props.height = Math.ceil(height);
             return height;
         } else {
-            node.height = Math.ceil(props.getHeight());
-            node.width = levels[cur];
+            desc.props.height = Math.ceil(props.getHeight());
+            desc.props.width = levels[cur];
             return Math.ceil(props.getHeight());
         }
     };
 
-    return function (node) {
-        lvl(node, 0);
-        back(node, 0, 0, 0);
-        node.width = levels[0];
-        console.log(node);
-        return node;
+    const getDescriptor = (schema) => {
+        lvls(schema, 0);
+        const desc = {};
+        fill(schema, 0, 0, 0, desc);
+        desc.props.width = levels[0];
+        return desc;
+    };
+
+    return {
+        getHeight : props.getHeight,
+        getDescent: props.getDescent,
+        getDescriptor: getDescriptor
     };
 };
-
-/* eslint no-console: 0 */
