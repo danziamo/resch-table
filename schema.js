@@ -10,7 +10,7 @@ module.exports = {
             name: { type: 'string', title: 'Device' },
             le: { type: 'number', title: 'Logic Elements (LE)' },
             m9k: {
-                type: 'object', title: 'M9k Memory', widget: 'column',
+                type: 'object', title: 'M9k Memory',
                 properties: {
                     block: { type: 'number', title: 'Block' },
                     capacity: { type: 'number', title: 'Capacity(KB)' }

@@ -5,20 +5,17 @@ const React = require('react')
     , data = require('./data')
     , update = require('immutability-helper')
 
-    , reGenObjectColumn = require('./object-column')
-    , reGenArray = require('./array')
-    , reGenColumn = require('./number')
-    , reGenObject = require('./object')
-    , reGenString = require('./string')
+    , reGenArray = require('./table-array')
+    , reGenObject = require('./table-object')
+    , reGenCell = require('./table-cell')
     ;
 
 const $ = React.createElement;
 const desc = Object.assign({}, resch);
 desc.array = reGenArray;
 desc.object = reGenObject;
-desc.number = reGenColumn;
-desc.string = reGenString;
-desc.object_column = reGenObjectColumn;
+desc.number = reGenCell;
+desc.string = reGenCell;
 
 const genForm = resch.__form(React)(desc);
 
