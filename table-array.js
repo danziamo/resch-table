@@ -8,7 +8,7 @@ const getDefaults = require('resch/lib/get-defaults')
 const margin = 2;
 const fontSize = 16;
 const minWidth = 80;
-const totalWidth = 800;
+const totalWidth = 900;
 const calc = width(fontSize);
 
 const genPath =  (node) => {
@@ -149,7 +149,7 @@ module.exports = React => {
                     const data = Array.isArray(this.props.data) ? this.props.data : []
                         ;
 
-                    const diff = totalWidth - itemizer.height();
+                    const diff = totalWidth - itemizer.width();
                     const tables = Math.ceil(diff/minWidth);
 
                     return (
