@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "mkdir -p dist && browserify index.js -o dist/bundle.js",
+    "build": "mkdir -p dist && browserify index.js -o dist/bundle.js && cp index.html dist/",
     "buildfont": "browserify --node gen/app.js -o gen/bundle.js",
     "serve": "http-server dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
