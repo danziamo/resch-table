@@ -5,9 +5,9 @@ const React = require('react')
     , data = require('./data')
     , update = require('immutability-helper')
 
-    , reGenArray = require('./table-array')
-    , reGenObject = require('./table-object')
-    , reGenCell = require('./table-cell')
+    , reGenArray = require('./lib/table-array')
+    , reGenObject = require('./lib/table-object')
+    , reGenCell = require('./lib/table-cell')
     ;
 
 const $ = React.createElement;
