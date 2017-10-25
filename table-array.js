@@ -150,6 +150,7 @@ module.exports = React => {
                         ;
 
                     const diff = totalWidth - itemizer.height();
+                    const tables = Math.ceil(diff/minWidth);
 
                     return (
                         $('svg',

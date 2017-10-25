@@ -1,6 +1,6 @@
 'use strict';
 
-const font = require('./roboto')();
+const font = require('./fonts').Roboto();
 
 module.exports = (fontSize) => {
     const props = font(fontSize);
