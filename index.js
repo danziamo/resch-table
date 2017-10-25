@@ -8,21 +8,14 @@ const React = require('react')
     , reGenArray = require('./table-array')
     , reGenObject = require('./table-object')
     , reGenCell = require('./table-cell')
-    , reGenArrayMap = require('./array-map')
     ;
 
 const $ = React.createElement;
 const desc = Object.assign({}, resch);
-desc.object = reGenArrayMap;
-// desc.object = reGenObject;
-// desc.array = reGenArray;
-// desc.number = reGenCell;
-// desc.string = reGenCell;
-
-const cs = {
-    type: 'object',
-    properties: {}
-};
+desc.object = reGenObject;
+desc.array = reGenArray;
+desc.number = reGenCell;
+desc.string = reGenCell;
 
 const genForm = resch.__form(React)(desc);
 
@@ -36,7 +29,7 @@ class App extends React.Component {
         this.updateState = this.updateState.bind(this);
 
         this.Form = genForm({
-            schema: cs,
+            schema: schema,
             path: [],
             updateState: this.updateState
         });
@@ -57,15 +50,7 @@ class App extends React.Component {
     }
 }
 
-const cd = {
-    yAxis: [ {name: 'Snoop'}, {name: 'Snoop Filter'}, {name: 'Snoop Test'}],
-    xAxis: [ {name: 'Agent'}, {name: 'Agent Smith'}, {name: 'Agent Test'}],
-    data: {
-
-    }
-};
-
 ReactDOM.render(
-    $(App, { data: cd }),
+    $(App, { data: data }),
     document.getElementById('root')
 );
