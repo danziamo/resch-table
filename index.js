@@ -23,7 +23,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data
+            data: props.data,
+            focus: undefined,
         };
 
         this.updateState = this.updateState.bind(this);
@@ -44,7 +45,8 @@ class App extends React.Component {
     render() {
         return (
             $(this.Form , {
-                data: this.state.data
+                data: this.state.data,
+                focus: this.state.focus
             })
         );
     }
