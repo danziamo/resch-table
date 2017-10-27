@@ -22,8 +22,11 @@
   "devDependencies": {
     "@drom/eslint-config": "^0.7.0",
     "browserify": "^14.4.0",
+    "coveralls": "^3.0.0",
     "eslint": "^4.8.0",
-    "http-server": "^0.10.0"
+    "http-server": "^0.10.0",
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1"
   },
   "eslintConfig": {
     "extends": "@drom/eslint-config/eslint4/node4"
