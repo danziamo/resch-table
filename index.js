@@ -10,6 +10,9 @@ const React = require('react')
     , reGenCell = require('./lib/table-cell')
     ;
 
+const font = require('./lib/fonts').Roboto();
+const fp = font(16);
+
 const $ = React.createElement;
 const desc = Object.assign({}, resch);
 desc.object = reGenObject;
@@ -18,6 +21,10 @@ desc.number = reGenCell;
 desc.string = reGenCell;
 
 const genForm = resch.__form(React)(desc);
+
+const getDataByPath = (data, path) => {
+    return String(path.reduce( (res, e) => res[e], data));
+};
 
 class App extends React.Component {
     constructor(props) {
@@ -42,12 +49,32 @@ class App extends React.Component {
         });
     }
 
+    onKeyPress(e) {
+        if (this.state.focus) {
+            const obj = this.state.focus[this.state.focus.length - 1];
+            if (typeof obj === 'object') {
+                const str = getDataByPath(this.state.data, obj.path);
+                const index = obj.caret.index;
+                obj.caret.index = index + 1;
+                obj.caret.position += fp.getWidth(e.key);
+                const res = str.substring(0, index) + e.key + str.substring(index, str.length);
+                const spec = {
+                    data: obj.path.reduceRight((p, k) => ({ [k]: p }), {$set: res}),
+                    focus: {$set: obj.path.concat([obj])}
+                };
+                this.updateState(spec)
+            }
+        }
+    }
+
     render() {
         return (
-            $(this.Form , {
-                data: this.state.data,
-                focus: this.state.focus
-            })
+            $('div', {tabIndex: 0, onKeyPress: (e) => this.onKeyPress(e)},
+                $(this.Form , {
+                    data: this.state.data,
+                    focus: this.state.focus
+                })
+            )
         );
     }
 }
