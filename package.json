@@ -1,7 +1,7 @@
 {
   "name": "resch-table",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Demo showing how with fontometer and resch you can construct a svg table",
   "main": "index.js",
   "scripts": {
     "build": "mkdir -p dist && browserify index.js -o dist/bundle.js && cp index.html dist/",
@@ -10,6 +10,13 @@
     "test": "eslint lib/*.js && nyc --reporter=html --reporter=text mocha test",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
+  "keywords": [
+      "font",
+      "svg",
+      "fontometer",
+      "jsonschema",
+      "resch"
+  ],
   "author": "Dan Takyrbashev",
   "license": "MIT",
   "dependencies": {
@@ -22,11 +29,8 @@
   "devDependencies": {
     "@drom/eslint-config": "^0.7.0",
     "browserify": "^14.4.0",
-    "coveralls": "^3.0.0",
     "eslint": "^4.8.0",
-    "http-server": "^0.10.0",
-    "mocha": "^4.0.1",
-    "nyc": "^11.2.1"
+    "http-server": "^0.10.0"
   },
   "eslintConfig": {
     "extends": "@drom/eslint-config/eslint4/node4"
